@@ -39,7 +39,7 @@ Vagrant.configure("2") do |config|
   # the path on the host to the actual folder. The second argument is
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
-  # config.vm.synced_folder "../data", "/vagrant_data"
+  config.vm.synced_folder ".", "/vagrant_data"
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
@@ -53,21 +53,32 @@ Vagrant.configure("2") do |config|
   end
 
   # Enable provisioning with a shell script.
+  # Install prerequisits for building gcc toolchain
   config.vm.provision "shell", inline: <<-SHELL
 
     apt-get update
     apt-get install -y virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11
-	
-	apt-get install -y texinfo
-	apt-get install -y libmpc-dev
-	apt-get install -y g++
+
+    apt-get install -y texinfo
+    apt-get install -y libmpc-dev
+    apt-get install -y g++
+
+    apt-get install -y lubuntu-desktop
+    apt-get install -y scite
 
   SHELL
 
   # Provision as user vagrant
+  # Download makefile for gcc toolchain from github
+  # build the gcc toolchain for ri5cy
+  # the build requires unrestriced internet access because it pulls in other git archives and uses ftp
+  # the build will take around 1h
+   
   $script = <<-SHELL
 
     git clone https://github.com/TobiasKaiser/ri5cy_gnu_toolchain.git ri5cy
+    cd ri5cy
+    make
 
   SHELL
 
