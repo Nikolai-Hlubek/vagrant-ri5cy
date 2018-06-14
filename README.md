@@ -2,6 +2,9 @@
 
 Vagrantfile for Ubuntu 18.04 with the gcc toolchain for the RI5CY small 4-stage RISC-V core.
 
+## Installation
+
+To provision a virtual machine with the Vagrantfile it is required to install *VirtualBox* and *vagrant*.
 
 ## Vagrant commands
 
